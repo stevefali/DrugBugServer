@@ -1,4 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
+
 // Testing method. Remove later!!
 const testGetAllDoses = async (req, res) => {
   try {
