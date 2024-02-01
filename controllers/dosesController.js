@@ -14,8 +14,6 @@ const getAllDoses = async () => {
         "doses.dose_reminder",
         "medications.amount_remaining",
         "medications.amount_unit",
-        // "medications.refill_reminder",
-        // "medications.refill_reminder_date",
         "medications.timezone",
         "users.first_name",
         "users.email"
