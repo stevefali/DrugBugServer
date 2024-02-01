@@ -5,6 +5,7 @@ require("dotenv").config();
 const doseNotification = require("./notifications/doseNotifications");
 const refillNotification = require("./notifications/refillNotifications");
 const dosesController = require("./controllers/dosesController");
+const notificationScheduler = require("./scheduler/notificationsScheduler");
 
 const PORT = process.env.PORT || 8080;
 
