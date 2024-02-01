@@ -1,5 +1,32 @@
 const knex = require("knex")(require("../knexfile"));
 
+const getAllDoses = async () => {
+  try {
+    const doses = await knex("doses")
+      .join("medications", "medications.id", "doses.medication_id")
+      .join("users", "users.id", "medications.user_id")
+      .select(
+        "doses.id",
+        "medications.medicine_name",
+        "doses.cron",
+        "doses.onetime_time",
+        "doses.amount",
+        "doses.dose_reminder",
+        "medications.amount_remaining",
+        "medications.amount_unit",
+        // "medications.refill_reminder",
+        // "medications.refill_reminder_date",
+        "medications.timezone",
+        "users.first_name",
+        "users.email"
+      );
+
+    return doses;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // Testing method. Remove later!!
 const testGetAllDoses = async (req, res) => {
   try {
@@ -29,4 +56,5 @@ const testGetAllDoses = async (req, res) => {
 
 module.exports = {
   testGetAllDoses,
+  getAllDoses,
 };
