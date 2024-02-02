@@ -125,49 +125,65 @@ const updateMedication = async (req, res) => {
 
 const addMedication = async (req, res) => {
   const {
-    id,
-    medicine_name,
-    amount_remaining,
-    user_id,
-    refill_reminder,
-    refill_reminder_date,
-    timezone,
-    refilled_on,
-    amount_unit,
+    medications,
+    // id,
+    // medicine_name,
+    // amount_remaining,
+    // user_id,
+    // refill_reminder,
+    // refill_reminder_date,
+    // timezone,
+    // refilled_on,
+    // amount_unit,
     doses,
   } = req.body;
   try {
-    const medResult = await knex("medications")
-      //   .join("doses", "doses.medication_id", "medications.id")
-      .insert({
-        id: id,
-        medicine_name: medicine_name,
-        amount_remaining: amount_remaining,
-        user_id: user_id,
-        refill_reminder: refill_reminder,
-        refill_reminder_date: refill_reminder_date,
-        timezone: timezone,
-        refilled_on: refilled_on,
-        amount_unit: amount_unit,
+    const doseResult = [];
+    const medResult = [];
+    for (let i = 0; i < medications.length; i++) {
+      const nextMed = await knex("medications").insert({
+        id: medications[i].id,
+        medicine_name: medications[i].medicine_name,
+        amount_remaining: medications[i].amount_remaining,
+        user_id: medications[i].user_id,
+        refill_reminder: medications[i].refill_reminder,
+        refill_reminder_date: medications[i].refill_reminder_date,
+        timezone: medications[i].timezone,
+        refilled_on: medications[i].refilled_on,
+        amount_unit: medications[i].amount_unit,
       });
-
+      medResult.push(nextMed);
+    }
     for (let i = 0; i < doses.length; i++) {
-      const doseResult = await knex("doses").insert({
+      const nextDose = await knex("doses").insert({
         medication_id: doses[i].medication_id,
         cron: doses[i].cron,
         onetime_time: doses[i].onetime_time,
         amount: doses[i].amount,
         dose_reminder: doses[i].dose_reminder,
       });
+      doseResult.push(nextDose);
     }
 
-    const newMedicationId = medResult[0];
-    const createdMedication = await knex("medications")
-      //   .join("doses", "doses.medication_id", "medications.id")
-      .where({
-        id: newMedicationId,
-      });
-    res.status(201).json(createdMedication);
+    if (medResult.length > 0) {
+      const newMedicationId = medResult[0][0];
+      const createdMedication = await knex("medications")
+        //   .join("doses", "doses.medication_id", "medications.id")
+        .where({
+          id: newMedicationId,
+        });
+      res.status(201).json(createdMedication);
+    } else {
+      if (doseResult.length > 0) {
+        const newDoseId = doseResult[0][0];
+        const createdDose = await knex("medications")
+          //   .join("doses", "doses.medication_id", "medications.id")
+          .where({
+            id: newDoseId,
+          });
+        res.status(201).json(createdDose);
+      }
+    }
   } catch (error) {
     res
       .status(500)
