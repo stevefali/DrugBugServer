@@ -7,6 +7,7 @@ const getAllDoses = async () => {
       .join("users", "users.id", "medications.user_id")
       .select(
         "doses.id",
+        "doses.medication_id",
         "medications.medicine_name",
         "doses.cron",
         "doses.onetime_time",
@@ -14,9 +15,12 @@ const getAllDoses = async () => {
         "doses.dose_reminder",
         "medications.amount_remaining",
         "medications.amount_unit",
+        "medications.refilled_on",
         "medications.timezone",
         "users.first_name",
-        "users.email"
+        "users.email",
+        "medications.refill_reminder",
+        "medications.refill_reminder_date"
       );
 
     return doses;
@@ -33,6 +37,7 @@ const testGetAllDoses = async (req, res) => {
       .join("users", "users.id", "medications.user_id")
       .select(
         "doses.id",
+        "doses.medication_id",
         "medications.medicine_name",
         "doses.cron",
         "doses.onetime_time",
@@ -40,9 +45,12 @@ const testGetAllDoses = async (req, res) => {
         "doses.dose_reminder",
         "medications.amount_remaining",
         "medications.amount_unit",
+        "medications.refilled_on",
         "medications.timezone",
         "users.first_name",
-        "users.email"
+        "users.email",
+        "medications.refill_reminder",
+        "medications.refill_reminder_date"
       );
     res.status(200).json(doses);
   } catch (error) {

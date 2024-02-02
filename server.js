@@ -5,11 +5,16 @@ require("dotenv").config();
 const doseNotification = require("./notifications/doseNotifications");
 const refillNotification = require("./notifications/refillNotifications");
 const dosesController = require("./controllers/dosesController");
+const medicationsController = require("./controllers/medicationsController");
 const notificationScheduler = require("./scheduler/notificationsScheduler");
 
 const PORT = process.env.PORT || 8080;
 
+const medicationRoutes = require("./routes/medicationRoutes");
+
 app.use(express.json());
+
+app.use("/medication", medicationRoutes);
 
 // Test routes for sending notifications. Delete later!!
 app.post("/notifydose", (req, res) => {
@@ -33,6 +38,9 @@ app.post("/notifyrefill", (req, res) => {
 });
 
 app.get("/doses", dosesController.testGetAllDoses);
+app.get("/medications", medicationsController.testGetAllMedications);
+
+notificationScheduler.startBree();
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
