@@ -70,6 +70,7 @@ const syncJobsFromDb = (module.exports = async () => {
             amount_remaining: medication.amount_remaining,
             amount_unit: medication.amount_unit,
             email: medication.email,
+            refill_reminder: medication.refill_reminder,
           },
         },
         timezone: medication.timezone,
