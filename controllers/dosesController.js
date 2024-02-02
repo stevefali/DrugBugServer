@@ -81,8 +81,24 @@ const updateDoses = async (req, res) => {
   }
 };
 
+const deleteDose = async (req, res) => {
+  const { doseId } = req.params;
+  try {
+    const deletedDose = await knex("doses").where({ id: doseId }).delete();
+    if (deletedDose === 0) {
+      return res
+        .status(404)
+        .json({ message: `Dose with id ${doseId} not found.` });
+    }
+    res.status(204).json({ message: "Dose deleted." });
+  } catch (error) {
+    res.status(500).json({ message: `Unable to delete dose ${doseId}` });
+  }
+};
+
 module.exports = {
   testGetAllDoses,
   getAllDoses,
   updateDoses,
+  deleteDose,
 };
