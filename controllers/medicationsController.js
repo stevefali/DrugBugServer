@@ -124,19 +124,7 @@ const updateMedication = async (req, res) => {
 };
 
 const addMedication = async (req, res) => {
-  const {
-    medications,
-    // id,
-    // medicine_name,
-    // amount_remaining,
-    // user_id,
-    // refill_reminder,
-    // refill_reminder_date,
-    // timezone,
-    // refilled_on,
-    // amount_unit,
-    doses,
-  } = req.body;
+  const { medications, doses } = req.body;
   try {
     const doseResult = [];
     const medResult = [];
@@ -167,20 +155,16 @@ const addMedication = async (req, res) => {
 
     if (medResult.length > 0) {
       const newMedicationId = medResult[0][0];
-      const createdMedication = await knex("medications")
-        //   .join("doses", "doses.medication_id", "medications.id")
-        .where({
-          id: newMedicationId,
-        });
+      const createdMedication = await knex("medications").where({
+        id: newMedicationId,
+      });
       res.status(201).json(createdMedication);
     } else {
       if (doseResult.length > 0) {
         const newDoseId = doseResult[0][0];
-        const createdDose = await knex("medications")
-          //   .join("doses", "doses.medication_id", "medications.id")
-          .where({
-            id: newDoseId,
-          });
+        const createdDose = await knex("medications").where({
+          id: newDoseId,
+        });
         res.status(201).json(createdDose);
       }
     }
@@ -191,10 +175,27 @@ const addMedication = async (req, res) => {
   }
 };
 
+const modifyMedications = async (req, res) => {
+  const { medicationId } = req.params;
+  try {
+    const nextMed = await knex("medications")
+      .where({ id: medicationId })
+      .update(req.body);
+
+    const updatedMedication = await knex("medications").where({
+      id: medicationId,
+    });
+    res.status(201).json(updatedMedication);
+  } catch (error) {
+    res.status(500).json({ message: `Unable to update medication! ${error}` });
+  }
+};
+
 module.exports = {
   testGetAllMedications,
   getAllMedications,
   updateMedication,
   updateMedicationInternal,
   addMedication,
+  modifyMedications,
 };
