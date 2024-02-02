@@ -12,11 +12,13 @@ const PORT = process.env.PORT || 8080;
 
 const medicationRoutes = require("./routes/medicationRoutes");
 const userRoutes = require("./routes/userRoutes");
+const doseRoutes = require("./routes/doseRoutes");
 
 app.use(express.json());
 
 app.use("/medication", medicationRoutes);
 app.use("/user", userRoutes);
+app.use("/dose", doseRoutes);
 
 // Test routes for sending notifications. Delete later!!
 app.post("/notifydose", (req, res) => {

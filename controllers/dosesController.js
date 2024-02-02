@@ -60,7 +60,29 @@ const testGetAllDoses = async (req, res) => {
   }
 };
 
+const updateDoses = async (req, res) => {
+  const { doses } = req.body;
+  try {
+    let doseResult = [];
+    for (let i = 0; i < doses.length; i++) {
+      const queryId = doses[i].id;
+      const nextDose = await knex("doses").where({ id: queryId }).update({
+        cron: doses[i].cron,
+        onetime_time: doses[i].onetime_time,
+        amount: doses[i].amount,
+        dose_reminder: doses[i].dose_reminder,
+      });
+      doseResult.push(nextDose);
+    }
+
+    res.status(201).json(doseResult);
+  } catch (error) {
+    res.status(500).json({ message: `Unable to update Dose! ${error}` });
+  }
+};
+
 module.exports = {
   testGetAllDoses,
   getAllDoses,
+  updateDoses,
 };
