@@ -1,7 +1,8 @@
 const Bree = require("bree");
 const path = require("path");
+module.exports = {};
 const dosesController = require("../controllers/dosesController");
-const medicationsController = require("../controllers/medicationsController");
+// const medicationsController = require("../controllers/medicationsController");
 
 const appDir = path.resolve(__dirname, "..");
 
@@ -20,7 +21,7 @@ const initializeBree = async () => {
   console.log("Bree starting");
 };
 
-const syncJobsFromDb = async () => {
+const syncJobsFromDb = (module.exports = async () => {
   await bree.stop();
 
   if (bree.config.jobs.length > 0) {
@@ -43,12 +44,18 @@ const syncJobsFromDb = async () => {
           amount_remaining: dose.amount_remaining,
           amount: dose.amount,
           dose_reminder: dose.dose_reminder,
+          medication_id: dose.medication_id,
+          refill_reminder: dose.refill_reminder,
+          refill_reminder_date: dose.refill_reminder_date,
+          refilled_on: dose.refilled_on,
+          amount_unit: dose.amount_unit,
         },
       },
       timezone: dose.timezone,
     });
   });
 
+  const medicationsController = require("../controllers/medicationsController");
   const medications = await medicationsController.getAllMedications();
   medications.forEach((medication) => {
     if (medication.refill_reminder) {
@@ -75,11 +82,14 @@ const syncJobsFromDb = async () => {
   console.log("bree jobs: ", bree.config.jobs.length);
 
   await bree.start();
+});
+
+const startBree = () => {
+  initializeBree();
+  syncJobsFromDb();
 };
 
-initializeBree();
-syncJobsFromDb();
-
 module.exports = {
+  startBree,
   syncJobsFromDb,
 };

@@ -7,7 +7,7 @@ module.exports = [
     refill_reminder: true,
     refill_reminder_date: 1707420639000,
     timezone: "America/Vancouver",
-    refilled_on: 1706643039,
+    refilled_on: 1706643039000,
     amount_unit: "pills",
   },
   {
@@ -28,7 +28,7 @@ module.exports = [
     refill_reminder: true,
     refill_reminder_date: 1707247839000,
     timezone: "America/Vancouver",
-    refilled_on: 1706470239,
+    refilled_on: 1706470239000,
     amount_unit: "pills",
   },
 ];
