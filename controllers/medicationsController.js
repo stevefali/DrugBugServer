@@ -191,6 +191,23 @@ const modifyMedications = async (req, res) => {
   }
 };
 
+const deleteMedication = async (req, res) => {
+  const { medicationId } = req.params;
+  try {
+    const deletedMed = await knex("medications")
+      .where({ id: medicationId })
+      .delete();
+    if (deletedMed === 0) {
+      return res
+        .status(404)
+        .json({ message: `Medication with id ${medicationId} not found.` });
+    }
+    res.status(204).json({ message: "Medication deleted." });
+  } catch (error) {
+    res.status(500).json({ message: `Problem deleting medication. ${error}` });
+  }
+};
+
 module.exports = {
   testGetAllMedications,
   getAllMedications,
@@ -198,4 +215,5 @@ module.exports = {
   updateMedicationInternal,
   addMedication,
   modifyMedications,
+  deleteMedication,
 };

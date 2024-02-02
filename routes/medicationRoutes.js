@@ -8,5 +8,8 @@ router
 
 router.route("/add").post(medicationsController.addMedication);
 
-router.route("/:medicationId").put(medicationsController.modifyMedications);
+router
+  .route("/:medicationId")
+  .put(medicationsController.modifyMedications)
+  .delete(medicationsController.deleteMedication);
 module.exports = router;
