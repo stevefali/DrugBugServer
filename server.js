@@ -1,6 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-require("dotenv").config();
+
+const cors = require("cors");
 
 const doseNotification = require("./notifications/doseNotifications");
 const refillNotification = require("./notifications/refillNotifications");
@@ -14,6 +16,7 @@ const medicationRoutes = require("./routes/medicationRoutes");
 const userRoutes = require("./routes/userRoutes");
 const doseRoutes = require("./routes/doseRoutes");
 
+app.use(cors());
 app.use(express.json());
 
 app.use("/medication", medicationRoutes);
