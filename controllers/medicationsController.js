@@ -178,9 +178,15 @@ const addMedication = async (req, res) => {
 const modifyMedications = async (req, res) => {
   const { medicationId } = req.params;
   try {
-    const nextMed = await knex("medications")
-      .where({ id: medicationId })
-      .update(req.body);
+    const nextMed = await knex("medications").where({ id: medicationId });
+
+    if (nextMed.user_id != req.verId) {
+      return res
+        .status(401)
+        .json({ error: "Unauthorized to access data for user." });
+    }
+
+    nextMed.update(req.body);
 
     const updatedMedication = await knex("medications").where({
       id: medicationId,
@@ -194,9 +200,14 @@ const modifyMedications = async (req, res) => {
 const deleteMedication = async (req, res) => {
   const { medicationId } = req.params;
   try {
-    const deletedMed = await knex("medications")
-      .where({ id: medicationId })
-      .delete();
+    const deletedMed = await knex("medications").where({ id: medicationId });
+    if (deletedMed.user_id != req.verId) {
+      return res
+        .status(401)
+        .json({ error: "Unauthorized to access data for user." });
+    }
+
+    deletedMed.delete();
     if (deletedMed === 0) {
       return res
         .status(404)
@@ -208,6 +219,50 @@ const deleteMedication = async (req, res) => {
   }
 };
 
+const getMedicationsForUser = async (req, res) => {
+  const { userId } = req.params;
+  if (userId != req.verId) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized to access data for user." });
+  }
+  try {
+    let user = await knex("users")
+      .where({ id: userId })
+      .select("id", "first_name", "last_name", "email");
+
+    if (user.length < 1) {
+      console.log(`Error getting user with id ${userId}`);
+      res
+        .status(404)
+        .json({ message: `Error, user with id ${userId} not found.` });
+      return;
+    }
+
+    const medications = await knex("medications").where({ user_id: userId });
+
+    let medicationDoses = [];
+
+    for (let i = 0; i < medications.length; i++) {
+      medicationDoses.push({
+        ...medications[i],
+        doses: [
+          ...(await knex("doses").where({
+            medication_id: medications[i].id,
+          })),
+        ],
+      });
+    }
+    user = { ...user, medications: medicationDoses };
+
+    res.status(200).json(user);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error getting data for user with ID ${userId}` });
+  }
+};
+
 module.exports = {
   testGetAllMedications,
   getAllMedications,
@@ -216,4 +271,5 @@ module.exports = {
   addMedication,
   modifyMedications,
   deleteMedication,
+  getMedicationsForUser,
 };
