@@ -12,4 +12,8 @@ router
   .route("/:medicationId")
   .put(medicationsController.modifyMedications)
   .delete(medicationsController.deleteMedication);
+
+router
+  .route("/medications/:userId")
+  .get(medicationsController.getMedicationsForUser);
 module.exports = router;
