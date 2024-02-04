@@ -1,7 +1,7 @@
 const Bree = require("bree");
 const path = require("path");
 module.exports = {};
-const dosesController = require("../controllers/dosesController");
+
 // const medicationsController = require("../controllers/medicationsController");
 
 const appDir = path.resolve(__dirname, "..");
@@ -28,6 +28,7 @@ const syncJobsFromDb = (module.exports = async () => {
     bree.config.jobs = [];
   }
   schedule = [];
+  const dosesController = require("../controllers/dosesController");
   const doses = await dosesController.getAllDoses();
   doses.forEach((dose) => {
     oneTimeDate = dose.onetime_time ? new Date(dose.onetime_time) : undefined;

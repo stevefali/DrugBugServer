@@ -1,4 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
+const notificationsScheduler = require("../scheduler/notificationsScheduler");
 
 const getAllDoses = async () => {
   try {
@@ -76,6 +77,7 @@ const updateDoses = async (req, res) => {
     }
 
     res.status(201).json(doseResult);
+    await notificationsScheduler.syncJobsFromDb();
   } catch (error) {
     res.status(500).json({ message: `Unable to update Dose! ${error}` });
   }
@@ -92,6 +94,7 @@ const deleteDose = async (req, res) => {
         .json({ message: `Dose with id ${doseId} not found.` });
     }
     res.status(204).json({ message: "Dose deleted." });
+    await notificationsScheduler.syncJobsFromDb();
   } catch (error) {
     res.status(500).json({ message: `Unable to delete dose ${doseId}` });
   }

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const dosesController = require("../controllers/dosesController");
+const authorize = require("../middleware/authorize");
 
 router.use(authorize);
 

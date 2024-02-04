@@ -168,6 +168,7 @@ const addMedication = async (req, res) => {
         res.status(201).json(createdDose);
       }
     }
+    await notificationsScheduler.syncJobsFromDb();
   } catch (error) {
     res
       .status(500)
@@ -192,6 +193,7 @@ const modifyMedications = async (req, res) => {
       id: medicationId,
     });
     res.status(201).json(updatedMedication);
+    await notificationsScheduler.syncJobsFromDb();
   } catch (error) {
     res.status(500).json({ message: `Unable to update medication! ${error}` });
   }
@@ -214,6 +216,7 @@ const deleteMedication = async (req, res) => {
         .json({ message: `Medication with id ${medicationId} not found.` });
     }
     res.status(204).json({ message: "Medication deleted." });
+    await notificationsScheduler.syncJobsFromDb();
   } catch (error) {
     res.status(500).json({ message: `Problem deleting medication. ${error}` });
   }
