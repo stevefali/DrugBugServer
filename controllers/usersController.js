@@ -27,7 +27,7 @@ const getMedicationsForUser = async (req, res) => {
         ],
       });
     }
-    user = [...user, { medications: medicationDoses }];
+    user = { ...user, medications: medicationDoses };
 
     res.status(200).json(user);
   } catch (error) {
