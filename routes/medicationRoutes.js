@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const medicationsController = require("../controllers/medicationsController");
+const authorize = require("../middleware/authorize");
+
+router.use(authorize);
 
 router
   .route("/update/:medicationId")

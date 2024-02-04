@@ -83,6 +83,7 @@ const updateDoses = async (req, res) => {
 
 const deleteDose = async (req, res) => {
   const { doseId } = req.params;
+
   try {
     const deletedDose = await knex("doses").where({ id: doseId }).delete();
     if (deletedDose === 0) {
