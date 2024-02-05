@@ -179,13 +179,13 @@ const addMedication = async (req, res) => {
 
 const modifyMedications = async (req, res) => {
   const { medicationId } = req.params;
-  // console.log(medicationId);
+
   if (req.body.user_id != req.verId) {
     return res
       .status(401)
       .json({ error: "Unauthorized to access data for user." });
   }
-  // console.log(req.body);
+
   try {
     const nextMed = await knex("medications")
       .where({ id: medicationId })
@@ -203,10 +203,10 @@ const modifyMedications = async (req, res) => {
 
 const deleteMedication = async (req, res) => {
   const { medicationId } = req.params;
-  // console.log(medicationId);
+
   try {
     const deletedMed = await knex("medications").where({ id: medicationId });
-    // console.log(deletedMed);
+
     if (deletedMed[0].user_id != req.verId) {
       return res
         .status(401)
@@ -216,7 +216,6 @@ const deleteMedication = async (req, res) => {
       .where({ id: medicationId })
       .delete();
 
-    // deletedMed.delete();
     if (deletedMed === 0) {
       return res
         .status(404)
