@@ -31,15 +31,4 @@ module.exports = [
     refilled_on: 1706470239000,
     amount_unit: "pills",
   },
-  {
-    id: 99,
-    medicine_name: "Tylenol",
-    amount_remaining: 35.0,
-    user_id: 3,
-    refill_reminder: true,
-    refill_reminder_date: 1707247839000,
-    timezone: "America/Vancouver",
-    refilled_on: 1706470239000,
-    amount_unit: "pills",
-  },
 ];

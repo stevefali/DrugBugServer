@@ -17,6 +17,7 @@ module.exports = (req, res, next) => {
   const token = splitBearerTokenString[1];
 
   jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    console.log(err);
     if (err) {
       return res.status(403).json({ error: "Invalid JWT" });
     }

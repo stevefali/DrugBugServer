@@ -34,12 +34,4 @@ module.exports = [
     amount: 2.0,
     dose_reminder: true,
   },
-
-  {
-    id: 77,
-    medication_id: 99,
-    cron: "0 12 * * *",
-    amount: 2.0,
-    dose_reminder: true,
-  },
 ];
