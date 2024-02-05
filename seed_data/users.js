@@ -13,11 +13,4 @@ module.exports = [
     email: "exampleemail@example.com",
     password: "password",
   },
-  {
-    id: 3,
-    first_name: "Steve",
-    last_name: "Faliszewski",
-    email: "stevefaliszewski@gmail.com",
-    password: "password",
-  },
 ];

@@ -125,6 +125,7 @@ const updateMedication = async (req, res) => {
 
 const addMedication = async (req, res) => {
   const { medications, doses } = req.body;
+  // console.log(req.body);
   try {
     const doseResult = [];
     const medResult = [];
@@ -178,16 +179,17 @@ const addMedication = async (req, res) => {
 
 const modifyMedications = async (req, res) => {
   const { medicationId } = req.params;
+  // console.log(medicationId);
+  if (req.body.user_id != req.verId) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized to access data for user." });
+  }
+  // console.log(req.body);
   try {
-    const nextMed = await knex("medications").where({ id: medicationId });
-
-    if (nextMed.user_id != req.verId) {
-      return res
-        .status(401)
-        .json({ error: "Unauthorized to access data for user." });
-    }
-
-    nextMed.update(req.body);
+    const nextMed = await knex("medications")
+      .where({ id: medicationId })
+      .update(req.body);
 
     const updatedMedication = await knex("medications").where({
       id: medicationId,
@@ -201,15 +203,20 @@ const modifyMedications = async (req, res) => {
 
 const deleteMedication = async (req, res) => {
   const { medicationId } = req.params;
+  // console.log(medicationId);
   try {
     const deletedMed = await knex("medications").where({ id: medicationId });
-    if (deletedMed.user_id != req.verId) {
+    // console.log(deletedMed);
+    if (deletedMed[0].user_id != req.verId) {
       return res
         .status(401)
         .json({ error: "Unauthorized to access data for user." });
     }
+    const trueDeleted = await knex("medications")
+      .where({ id: medicationId })
+      .delete();
 
-    deletedMed.delete();
+    // deletedMed.delete();
     if (deletedMed === 0) {
       return res
         .status(404)
