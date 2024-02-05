@@ -4,6 +4,7 @@ const usersController = require("../controllers/usersController");
 const knex = require("knex")(require("../knexfile"));
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const authorize = require("../middleware/authorize");
 
 router.post("/register", async (req, res) => {
   const { first_name, last_name, email, password } = req.body;
@@ -60,6 +61,18 @@ router.post("/login", async (req, res) => {
   );
 
   res.status(200).json({ token: token });
+});
+
+router.get("/current", authorize, async (req, res) => {
+  try {
+    const currentUser = await knex("users").where({ id: req.verId }).first();
+
+    delete currentUser.password;
+
+    res.json(currentUser);
+  } catch (error) {
+    return res.status(401).send("Invalid auth token: ", error);
+  }
 });
 
 module.exports = router;
