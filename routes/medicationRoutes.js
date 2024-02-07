@@ -5,9 +5,8 @@ const authorize = require("../middleware/authorize");
 
 router.use(authorize);
 
-router
-  .route("/update/:medicationId")
-  .put(medicationsController.updateMedication);
+// router.route("/update/:medicationId");
+//   .put(medicationsController.updateMedication);
 
 router.route("/add").post(medicationsController.addMedication);
 
