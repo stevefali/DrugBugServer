@@ -2,8 +2,6 @@ const Bree = require("bree");
 const path = require("path");
 module.exports = {};
 
-// const medicationsController = require("../controllers/medicationsController");
-
 const appDir = path.resolve(__dirname, "..");
 
 let schedule = [];

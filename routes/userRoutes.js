@@ -71,7 +71,7 @@ router.get("/current", authorize, async (req, res) => {
 
     res.json(currentUser);
   } catch (error) {
-    return res.status(401).send("Invalid auth token: ", error);
+    return res.status(401).send("Invalid auth token: ");
   }
 });
 
