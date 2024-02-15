@@ -75,4 +75,8 @@ router.get("/current", authorize, async (req, res) => {
   }
 });
 
+// router.post("/notifications", authorize, async (req, res) => {
+
+// })
+
 module.exports = router;
