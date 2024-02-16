@@ -10,12 +10,13 @@ const refillNotification = (
   name,
   amount_remaining,
   amount_unit,
-  email
+  email,
+  user_id
 ) => {
   notificationapi.send({
     notificationId: "drugbug_refill",
     user: {
-      id: email,
+      id: user_id.toString(),
       email: email,
     },
     mergeTags: {

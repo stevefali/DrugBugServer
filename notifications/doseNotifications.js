@@ -5,11 +5,18 @@ const clientSecret = process.env.CLIENT_SECRET;
 
 notificationapi.init(clientId, clientSecret);
 
-const doseNotification = (medicine, name, email, amount, amount_unit) => {
+const doseNotification = (
+  medicine,
+  name,
+  email,
+  amount,
+  amount_unit,
+  user_id
+) => {
   notificationapi.send({
     notificationId: "drugbug_test",
     user: {
-      id: email,
+      id: user_id.toString(),
       email: email,
     },
     mergeTags: {
@@ -19,6 +26,7 @@ const doseNotification = (medicine, name, email, amount, amount_unit) => {
       amount_unit: amount_unit,
     },
   });
+  // console.log("user: ", notificationapi.user);
 };
 
 module.exports = doseNotification;

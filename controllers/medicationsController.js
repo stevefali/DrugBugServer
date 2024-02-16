@@ -15,7 +15,8 @@ const getAllMedications = async () => {
         "medications.amount_unit",
         "medications.timezone",
         "users.first_name",
-        "users.email"
+        "users.email",
+        "medications.user_id"
       );
     return medications;
   } catch (error) {

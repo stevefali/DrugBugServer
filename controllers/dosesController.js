@@ -21,7 +21,8 @@ const getAllDoses = async () => {
         "users.first_name",
         "users.email",
         "medications.refill_reminder",
-        "medications.refill_reminder_date"
+        "medications.refill_reminder_date",
+        "medications.user_id"
       );
 
     return doses;
