@@ -26,7 +26,7 @@ const doseNotification = (
       amount_unit: amount_unit,
     },
   });
-  console.log("user: ", notificationapi.user);
+  // console.log("user: ", notificationapi.user);
 };
 
 module.exports = doseNotification;
