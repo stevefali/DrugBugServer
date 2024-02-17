@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const authorize = require("../middleware/authorize");
 const notificationapi = require("notificationapi-node-server-sdk").default;
 require("dotenv").config();
+const notificationsScheduler = require("../scheduler/notificationsScheduler");
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
@@ -117,6 +118,34 @@ router.post("/webpush", authorize, async (req, res) => {
     return res
       .status(400)
       .json({ message: `Error setting web push tokens for user. ${error}` });
+  }
+});
+
+router.delete("/delete", authorize, async (req, res) => {
+  try {
+    await knex("users").where({ id: req.verId }).delete();
+    res.sendStatus(204);
+    await notificationsScheduler.syncJobsFromDb();
+  } catch (error) {
+    res
+      .status(400)
+      .json({ error: `Error deleting account for user with id ${req.verId}` });
+  }
+});
+
+router.put("/edit", authorize, async (req, res) => {
+  try {
+    await knex("users").where({ id: req.verId }).update(req.body);
+
+    const updatedUser = await knex("users").where({ id: req.verId }).first();
+
+    delete updatedUser.password;
+
+    console.log(updatedUser);
+    res.status(201).json(updatedUser);
+    await notificationsScheduler.syncJobsFromDb();
+  } catch (error) {
+    res.status(500).json({ message: "Error updating account information" });
   }
 });
 
