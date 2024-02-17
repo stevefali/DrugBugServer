@@ -120,4 +120,17 @@ router.post("/webpush", authorize, async (req, res) => {
   }
 });
 
+router.delete("/delete", authorize, async (req, res) => {
+  try {
+    await knex("users").where({ id: req.verId }).del();
+    res
+      .status(204)
+      .json({ message: `Successfully deleted user with id ${verId}` });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: `Error deleting account for user with id ${req.verId}` });
+  }
+});
+
 module.exports = router;
