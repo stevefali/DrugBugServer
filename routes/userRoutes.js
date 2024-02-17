@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const authorize = require("../middleware/authorize");
 const notificationapi = require("notificationapi-node-server-sdk").default;
 require("dotenv").config();
+const notificationsScheduler = require("../scheduler/notificationsScheduler");
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
@@ -122,13 +123,12 @@ router.post("/webpush", authorize, async (req, res) => {
 
 router.delete("/delete", authorize, async (req, res) => {
   try {
-    await knex("users").where({ id: req.verId }).del();
-    res
-      .status(204)
-      .json({ message: `Successfully deleted user with id ${verId}` });
+    await knex("users").where({ id: req.verId }).delete();
+    res.sendStatus(204);
+    await notificationsScheduler.syncJobsFromDb();
   } catch (error) {
     res
-      .status(500)
+      .status(400)
       .json({ error: `Error deleting account for user with id ${req.verId}` });
   }
 });
