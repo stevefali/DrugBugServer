@@ -12,8 +12,9 @@ let {
   refill_reminder_date,
   refilled_on,
   amount_unit,
+  user_id,
 } = require("node:worker_threads").workerData;
 
 if (dose_reminder) {
-  doseNotification(medicine, name, email, amount, amount_unit);
+  doseNotification(medicine, name, email, amount, amount_unit, user_id);
 }
