@@ -133,4 +133,20 @@ router.delete("/delete", authorize, async (req, res) => {
   }
 });
 
+router.put("/edit", authorize, async (req, res) => {
+  try {
+    await knex("users").where({ id: req.verId }).update(req.body);
+
+    const updatedUser = await knex("users").where({ id: req.verId }).first();
+
+    delete updatedUser.password;
+
+    console.log(updatedUser);
+    res.status(201).json(updatedUser);
+    await notificationsScheduler.syncJobsFromDb();
+  } catch (error) {
+    res.status(500).json({ message: "Error updating account information" });
+  }
+});
+
 module.exports = router;
