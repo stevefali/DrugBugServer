@@ -107,14 +107,14 @@ router.post("/webpush", authorize, async (req, res) => {
     // const subAsJson = PushSubscription.toJSON();
     // console.log(subAsJson);
 
-    console.log(req.body);
+    // console.log(req.body);
 
     notificationapi.identifyUser({
       id: req.verId.toString(),
       webPushTokens: [
         {
           sub: {
-            endpoint: endpoint,
+            endpoint: `https://${endpoint}`,
             keys: keys,
           },
         },
