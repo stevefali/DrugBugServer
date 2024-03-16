@@ -100,7 +100,7 @@ router.get("/current", authorize, async (req, res) => {
 
 router.post("/webpush", authorize, async (req, res) => {
   // console.log("webPush called");
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  // res.setHeader("Access-Control-Allow-Origin", "*");
   try {
     const { endpoint, keys } = req.body;
     //  const { PushSubscription } = req.body;
@@ -109,17 +109,17 @@ router.post("/webpush", authorize, async (req, res) => {
 
     // console.log(req.body);
 
-    notificationapi.identifyUser({
-      id: req.verId.toString(),
-      webPushTokens: [
-        {
-          sub: {
-            endpoint: `https://${endpoint}`,
-            keys: keys,
-          },
-        },
-      ],
-    });
+    // notificationapi.identifyUser({
+    //   id: req.verId.toString(),
+    //   webPushTokens: [
+    //     {
+    //       sub: {
+    //         endpoint: `https://${endpoint}`,
+    //         keys: keys,
+    //       },
+    //     },
+    //   ],
+    // });
     res.status(200);
   } catch (error) {
     return res
