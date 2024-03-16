@@ -98,7 +98,7 @@ router.get("/current", authorize, async (req, res) => {
   }
 });
 
-router.post("/webpush", authorize, async (req, res) => {
+router.post("/webpush", async (req, res) => {
   // console.log("webPush called");
   // res.setHeader("Access-Control-Allow-Origin", "*");
   try {
