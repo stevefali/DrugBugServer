@@ -98,7 +98,7 @@ router.get("/current", authorize, async (req, res) => {
   }
 });
 
-router.post("/webpush", async (req, res) => {
+router.post("/webpush", authorize, async (req, res) => {
   // console.log("webPush called");
   // res.setHeader("Access-Control-Allow-Origin", "*");
   try {
@@ -109,18 +109,18 @@ router.post("/webpush", async (req, res) => {
 
     // console.log(req.body);
 
-    // notificationapi.identifyUser({
-    //   id: req.verId.toString(),
-    //   webPushTokens: [
-    //     {
-    //       sub: {
-    //         endpoint: `https://${endpoint}`,
-    //         keys: keys,
-    //       },
-    //     },
-    //   ],
-    // });
-    res.status(200).json({ message: req.body });
+    notificationapi.identifyUser({
+      id: req.verId.toString(),
+      webPushTokens: [
+        {
+          sub: {
+            endpoint: `https://${endpoint}`,
+            keys: keys,
+          },
+        },
+      ],
+    });
+    res.status(200).json({ message: "Updated webPush for user" });
   } catch (error) {
     return res
       .status(400)
