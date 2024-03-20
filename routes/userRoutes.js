@@ -114,7 +114,8 @@ router.post("/webpush", authorize, async (req, res) => {
       webPushTokens: [
         {
           sub: {
-            endpoint: `https://${endpoint}`,
+            // endpoint: `https://${endpoint}`,
+            endpoint: endpoint,
             keys: keys,
           },
         },
