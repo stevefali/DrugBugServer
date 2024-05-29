@@ -4,7 +4,6 @@ const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
 notificationapi.init(clientId, clientSecret);
-
 const refillNotification = (
   medicine,
   name,
