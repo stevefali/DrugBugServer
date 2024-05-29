@@ -58,11 +58,11 @@ const syncJobsFromDb = (module.exports = async () => {
   const medicationsController = require("../controllers/medicationsController");
   const medications = await medicationsController.getAllMedications();
   medications.forEach((medication) => {
-    if (medication.refill_reminder) {
+    if (medication.refill_reminder_date) {
       schedule.push({
         name: `refillNotifier-${medication.id}`,
         path: path.join(appDir + "/jobs", "refillNotifier.js"),
-        date: new Date(medication.refillReminderDate),
+        date: new Date(medication.refill_reminder_date),
         worker: {
           workerData: {
             medicine: medication.medicine_name,
