@@ -101,7 +101,6 @@ router.get("/current", authorize, async (req, res) => {
 router.post("/webpush", authorize, async (req, res) => {
   try {
     const { endpoint, keys } = req.body;
-    console.log(`Current Sub - endpoint: ${endpoint}, keys: ${keys}`);
 
     notificationapi.identifyUser({
       id: req.verId.toString(),
