@@ -121,6 +121,10 @@ router.post("/webpush", authorize, async (req, res) => {
   }
 });
 
+router.get("/vap", authorize, async (req, res) => {
+  res.status(200).json({ vkey: process.env.VAPID_KEY });
+});
+
 router.delete("/delete", authorize, async (req, res) => {
   try {
     await knex("users").where({ id: req.verId }).delete();
