@@ -1,11 +1,14 @@
-# DrugBug
+# DrugBugServer
 
 [DrugBug](https://drugbug.netlify.app/) is a full-stack web app for tracking medications.
 I made it using React, JavaScript, Node.js, Express,js, Knex, and Bootstrap. It includes a front end that allows users to add, view, and edit medications and doses to receive email and web push notifications when it is time for a dose or to order a refill.
 
+This is the back end repository. The repository for the front end can be found [here](https://github.com/stevefali/DrugBug)
+
 The server, where all the magic happens, grabs the current data in the MySQL database that I created, schedules notifications using cron syntax and triggers them in real time in worker threads that build notifications and then trigger them on the NotificationApi.
 I had a lot of fun building this project, and I am particularly proud of having taught myself how to send web push notifications.
 
+I also made a demo video of this app that you can find [here](https://youtu.be/tf2c68DhqRc?si=oKuBXN8g_pVAgMlx)
 
 
 ## Implementation
