@@ -29,6 +29,10 @@ router.get("/", async (req, res) => {
       }
     });
   }
+
+  const fdaResponses = await Promise.allSettled(
+    fdaCalls.map((fdaCall) => fdaCall())
+  );
 });
 
 module.exports = router;
