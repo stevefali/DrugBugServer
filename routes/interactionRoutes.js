@@ -60,7 +60,7 @@ router.get("/", async (req, res) => {
   res.json({
     interactionsResponse,
     disclaimer:
-      "DrugBug's drug interaction search is not meant to replace the advice of a medical professional. Speak to your doctor or pharmacist before making decisions regarding your health and medications.",
+      "DrugBug's drug interaction search is not meant to replace the advice of a healthcare professional. Speak to your doctor or pharmacist before making decisions regarding your health and medications.",
   });
 });
 
