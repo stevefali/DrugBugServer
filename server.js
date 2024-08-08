@@ -23,10 +23,12 @@ app.use(express.json());
 app.use("/medication", medicationRoutes);
 app.use("/user", userRoutes);
 app.use("/dose", doseRoutes);
-app.use("interaction", interactionRoutes);
+app.use("/interaction", interactionRoutes);
 
 app.get("/", (req, res) => {
-  res.send(`<h1>Welcome to my Express App</h1>`);
+  res.send(
+    `<h1>Welcome to DrugBug Server. To use DrugBug, visit drugbug.ca</h1>`
+  );
 });
 
 notificationScheduler.startBree();

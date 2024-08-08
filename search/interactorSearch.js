@@ -10,8 +10,10 @@ const getInteractorMatches = (fdaString, query) => {
   const sentences = cleanedFdaString.split(/(\.)([^e.g.,])/g);
   const foundSentences = [];
 
-  sentences.array.forEach((sentence) => {
-    foundSentences.push(sentence.trim() + ".");
+  sentences.forEach((sentence) => {
+    if (sentence.toLowerCase().includes(query.toLowerCase())) {
+      foundSentences.push(sentence.trim() + ".");
+    }
   });
   return foundSentences;
 };
