@@ -12,15 +12,7 @@ router.use(authorize);
 
 router.get("/", async (req, res) => {
   const { interactor } = req.query;
-  const medicines = [
-    "tacrolimus",
-    "amoxicillin",
-    "ozempic",
-    "zanex",
-    "ursodiol",
-  ]; // Hard-coded test medicines for now
-
-  const testMeds = await medicationsController.getMedicationNamesForUser(
+  const medicines = await medicationsController.getMedicationNamesForUser(
     req.verId
   );
 
@@ -71,7 +63,6 @@ router.get("/", async (req, res) => {
     interactionsResponse,
     disclaimer:
       "DrugBug's drug interaction search is not meant to replace the advice of a healthcare professional. Speak to your doctor or pharmacist before making decisions regarding your health and medications.",
-    testMedNames: testMeds,
   });
 });
 
