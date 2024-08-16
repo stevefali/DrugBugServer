@@ -1,9 +1,14 @@
 const axios = require("axios");
 const express = require("express");
 const router = express.Router();
+const authorize = require("../middleware/authorize.js");
+
+const medicationsController = require("../controllers/medicationsController.js");
 
 const getBoxedWarningEndpoint = require("../utils/networkUtils.js");
 const getInteractorMatches = require("../search/interactorSearch.js");
+
+router.use(authorize);
 
 router.get("/", async (req, res) => {
   const { interactor } = req.query;
@@ -14,6 +19,11 @@ router.get("/", async (req, res) => {
     "zanex",
     "ursodiol",
   ]; // Hard-coded test medicines for now
+
+  const testMeds = await medicationsController.getMedicationNamesForUser(
+    req.verId
+  );
+
   const fdaCalls = [];
   for (const medicine of medicines) {
     fdaCalls.push(async () => {
@@ -36,7 +46,7 @@ router.get("/", async (req, res) => {
   );
 
   const interactionsResponse = [];
-  const noneFound = `No interactions with ${interactor} found.`;
+  const noneFound = [`No interactions with ${interactor} found.`];
 
   for (const fdaResponse of fdaResponses) {
     let medName = fdaResponse.value.medicine;
@@ -61,6 +71,7 @@ router.get("/", async (req, res) => {
     interactionsResponse,
     disclaimer:
       "DrugBug's drug interaction search is not meant to replace the advice of a healthcare professional. Speak to your doctor or pharmacist before making decisions regarding your health and medications.",
+    testMedNames: testMeds,
   });
 });
 

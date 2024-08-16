@@ -24,85 +24,9 @@ const getAllMedications = async () => {
   }
 };
 
-// const updateMedicationInternal = async (
-//   id,
-//   medicine_name,
-//   amount_remaining,
-//   refill_reminder,
-//   refill_reminder_date,
-//   refilled_on,
-//   amount_unit,
-//   res
-// ) => {
-//   try {
-//     const updatedMedication = await knex("medications")
-//       .where({ id: id })
-//       .update({
-//         medicine_name: medicine_name,
-//         amount_remaining: amount_remaining,
-//         refill_reminder: refill_reminder,
-//         refill_reminder_date: refill_reminder_date,
-//         refilled_on: refilled_on,
-//         amount_unit: amount_unit,
-//       });
-
-//     console.log("remaining: ", amount_remaining);
-
-//     await notificationsScheduler.syncJobsFromDb();
-
-//     if (!updatedMedication) {
-//       console.log(`Error updating medication with id ${id}`);
-//       if (res) {
-//         res
-//           .status(404)
-//           .json({ message: `Error, medication with id ${id} not found.` });
-//       }
-//     }
-
-//     if (res) {
-//       res.status(200).json({ message: `Updated medication ${medicine_name}.` });
-//     }
-//   } catch (error) {
-//     if (res) {
-//       if (error.errno === 1452) {
-//         return res.status(400).json({
-//           message: `Error: medication id ${id} not found.`,
-//         });
-//       } else {
-//         res.status(500).json({
-//           message: `Error updating database: ${error}`,
-//         });
-//       }
-//     }
-//   }
-// };
-
-// const updateMedication = async (req, res) => {
-//   const {
-//     medicine_name,
-//     amount_remaining,
-//     refill_reminder,
-//     refill_reminder_date,
-//     refilled_on,
-//     amount_unit,
-//   } = req.body;
-//   const id = req.params.medicationId;
-
-//   updateMedicationInternal(
-//     id,
-//     medicine_name,
-//     amount_remaining,
-//     refill_reminder,
-//     refill_reminder_date,
-//     refilled_on,
-//     amount_unit,
-//     res
-//   );
-// };
-
 const addMedication = async (req, res) => {
   const { medications, doses } = req.body;
-  // console.log(req.body);
+
   try {
     const doseResult = [];
     const medResult = [];
@@ -156,13 +80,13 @@ const addMedication = async (req, res) => {
 
 const modifyMedications = async (req, res) => {
   const { medicationId } = req.params;
-  // console.log(medicationId);
+
   if (req.body.user_id != req.verId) {
     return res
       .status(401)
       .json({ error: "Unauthorized to access data for user." });
   }
-  // console.log(req.body);
+
   try {
     const nextMed = await knex("medications")
       .where({ id: medicationId })
@@ -180,10 +104,8 @@ const modifyMedications = async (req, res) => {
 
 const deleteMedication = async (req, res) => {
   const { medicationId } = req.params;
-  // console.log(medicationId);
   try {
     const deletedMed = await knex("medications").where({ id: medicationId });
-    // console.log(deletedMed);
     if (deletedMed[0].user_id != req.verId) {
       return res
         .status(401)
@@ -193,7 +115,6 @@ const deleteMedication = async (req, res) => {
       .where({ id: medicationId })
       .delete();
 
-    // deletedMed.delete();
     if (deletedMed === 0) {
       return res
         .status(404)
@@ -250,13 +171,25 @@ const getMedicationsForUser = async (req, res) => {
   }
 };
 
+const getMedicationNamesForUser = async (userId) => {
+  try {
+    const medNames = [];
+    const medicines = await knex("medications").where({ user_id: userId });
+    medicines.forEach((medicine) => {
+      medNames.push(medicine.medicine_name);
+    });
+    return medNames;
+  } catch (error) {
+    console.log(error);
+    return "No medications found.";
+  }
+};
+
 module.exports = {
-  // testGetAllMedications,
   getAllMedications,
-  // updateMedication,
-  // updateMedicationInternal,
   addMedication,
   modifyMedications,
   deleteMedication,
   getMedicationsForUser,
+  getMedicationNamesForUser,
 };
