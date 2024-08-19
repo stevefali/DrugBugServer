@@ -1,7 +1,7 @@
 # DrugBugServer
 
-[DrugBug](https://drugbug.netlify.app/) is a full-stack web app for tracking medications. You can now also search for interactions your medications could have with food, drinks, or other medications.
-I made it using React, JavaScript, Node.js, Express,js, Knex, and Bootstrap. It includes a front end that allows users to add, view, and edit medications and doses to receive email and web push notifications when it is time for a dose or to order a refill.
+[DrugBug](https://drugbug.netlify.app/) is a full-stack web app for tracking medications.
+I made it using React, JavaScript, Node.js, Express,js, Knex, and Bootstrap. It includes a front end that allows users to add, view, and edit medications and doses to receive email and web push notifications when it is time for a dose or to order a refill. You can now also search for interactions your medications could have with food, drinks, or other medications.
 
 This is the back end repository. The repository for the front end can be found [here](https://github.com/stevefali/DrugBug)
 
