@@ -27,7 +27,7 @@ app.use("/interaction", interactionRoutes);
 
 app.get("/", (req, res) => {
   res.send(
-    `<h1>Welcome to DrugBug Server. To use DrugBug, visit drugbug.ca</h1>`
+    `<h1>Welcome to DrugBug Server. To use DrugBug, visit drugbug.ca</h1>`,
   );
 });
 
