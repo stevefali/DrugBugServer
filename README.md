@@ -30,6 +30,7 @@ The server, where all the magic happens, grabs the current data in the MySQL dat
 ## Installation and Running Instructions
 
 To install the server (this repo) you need to:
+- Make sure you have [Node.js](https://nodejs.org/en) installed on your computer.
 - Run `npm i` in the command line to install the node modules.
 - Make a MySQL database.
 - [Create a developer account with Pingram](https://app.pingram.io/signup) if you haven't already.
